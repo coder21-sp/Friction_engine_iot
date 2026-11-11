@@ -6,6 +6,7 @@ import { SESSION_COOKIE_NAME, verifySessionToken } from '@/lib/auth';
 const PUBLIC_PATH_PREFIXES = [
   '/login',
   '/iot-login',
+  '/health',
   '/api/auth/login',
   '/api/auth/logout',
   '/api/auth/session',
