@@ -196,6 +196,31 @@ def snapshot() -> dict[str, Any]:
     }
 
 
+def reset_events() -> dict[str, Any]:
+    """Clear all events and restore baseline normal telemetry upon dashboard signout."""
+    global EVENTS
+    EVENTS.clear()
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            conn.execute("DELETE FROM iot_events")
+            conn.commit()
+    except Exception as err:
+        print(f"[IoT DB] Reset error: {err}")
+
+    # Restore clean baseline telemetry
+    add_event({
+        "device_id": "iot-sensor-02",
+        "event_type": "normal telemetry",
+        "source": "simulated",
+        "auth_failures": 0,
+        "packets_per_minute": 60,
+        "firmware_changed": False,
+        "unknown_destination": False,
+        "human_friction_score": 0.0,
+    })
+    return snapshot()
+
+
 def simulate_suspicious() -> dict[str, Any]:
     """Generate synthetic Low, Medium, and High threat scenarios with random distribution and fixed 70:30 correlation."""
     # Random selection among Low, Medium, High threat scenarios

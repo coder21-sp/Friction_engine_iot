@@ -15,7 +15,12 @@ from live_runtime import LiveRuntime, now_iso
 from models.anomaly_detector import AnomalyDetector
 from models.friction_predictor import FrictionPredictor
 from models.insight_generator import InsightGenerator
-from iot_security import add_event as add_iot_event, snapshot as get_iot_snapshot, simulate_suspicious as simulate_iot_suspicious
+from iot_security import (
+    add_event as add_iot_event,
+    snapshot as get_iot_snapshot,
+    simulate_suspicious as simulate_iot_suspicious,
+    reset_events as reset_iot_events,
+)
 
 load_dotenv()
 
@@ -140,6 +145,11 @@ async def create_iot_event(request: IoTEventRequest, _: None = Depends(require_i
 @app.post("/iot/simulate-suspicious")
 async def simulate_suspicious_iot_event(_: None = Depends(require_internal_key)):
     return simulate_iot_suspicious()
+
+
+@app.post("/iot/reset")
+async def reset_iot_events_endpoint(_: None = Depends(require_internal_key)):
+    return reset_iot_events()
 
 
 @app.get("/health")

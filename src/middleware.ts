@@ -11,6 +11,7 @@ const PUBLIC_PATH_PREFIXES = [
   '/api/auth/login',
   '/api/auth/logout',
   '/api/auth/session',
+  '/api/iot/reset',
 ];
 
 function isPublicPath(pathname: string) {

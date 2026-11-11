@@ -193,6 +193,11 @@ export function IoTSecurityDashboard() {
   const [darkMode, setDarkMode] = useState(false);
 
   async function handleSignOut() {
+    try {
+      await fetch('/api/iot/reset', { method: 'POST' });
+    } catch {
+      // Ignore network errors on signout
+    }
     await fetch('/api/auth/logout', { method: 'POST' });
     window.location.href = '/iot-login';
   }

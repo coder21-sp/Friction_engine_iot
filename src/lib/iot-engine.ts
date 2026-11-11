@@ -167,6 +167,24 @@ export function simulateRandomIoTEvent(): IoTEvent {
   });
 }
 
+export function resetIoTEvents() {
+  IN_MEMORY_EVENTS.length = 0;
+  recordIoTEvent({
+    device_id: 'iot-sensor-02',
+    event_type: 'normal telemetry',
+    auth_failures: 0,
+    packets_per_minute: 60,
+    firmware_changed: false,
+    unknown_destination: false,
+    human_friction_score: 0,
+  });
+  return {
+    ok: true,
+    message: 'IoT events reset to baseline',
+    snapshot: getIoTSnapshot(),
+  };
+}
+
 export function getIoTSnapshot() {
   if (IN_MEMORY_EVENTS.length === 0) {
     recordIoTEvent({
