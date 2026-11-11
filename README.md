@@ -140,10 +140,11 @@ Password: hfme_admin_2024
 - `/`
 - `/workflows`
 - `/workflows/[id]`
+- `/iot-security`
 - `/admin`
 - `/login`
 
-### Protected Next.js AI Proxy
+### Protected Next.js AI & IoT Proxy
 
 - `GET /api/ai/live`
 - `GET /api/ai/stream`
@@ -151,12 +152,18 @@ Password: hfme_admin_2024
 - `GET /api/ai/status`
 - `PUT /api/ai/config`
 - `POST /api/ai/retrain`
+- `GET /api/iot/snapshot`
+- `POST /api/iot/events`
+- `POST /api/iot/simulate`
 
 ### FastAPI
 
 - `GET /health`
 - `GET /live/snapshot`
 - `GET /events/stream`
+- `GET /iot/snapshot`
+- `POST /iot/events`
+- `POST /iot/simulate-suspicious`
 - `POST /analyze/anomaly`
 - `POST /analyze/predict`
 - `POST /analyze/explain`

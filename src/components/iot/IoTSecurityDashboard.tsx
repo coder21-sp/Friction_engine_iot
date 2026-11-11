@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import {
   Activity,
   AlertTriangle,
+  ArrowLeft,
   Bell,
   CheckCircle2,
   ChevronRight,
@@ -15,6 +17,7 @@ import {
   Gauge,
   LayoutDashboard,
   LockKeyhole,
+  LogOut,
   Moon,
   Sun,
   RefreshCw,
@@ -189,10 +192,19 @@ export function IoTSecurityDashboard() {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
+  async function handleSignOut() {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    window.location.href = '/iot-login';
+  }
+
   const refresh = useCallback(async () => {
     setRefreshing(true);
     try {
       const res = await fetch("/api/iot/snapshot", { cache: "no-store" });
+      if (res.status === 401) {
+        window.location.href = "/iot-login";
+        return;
+      }
       const body = await res.json();
       if (!res.ok) {
         throw new Error(body?.error || "Could not load IoT snapshot");
@@ -217,6 +229,10 @@ export function IoTSecurityDashboard() {
     setError("");
     try {
       const res = await fetch("/api/iot/simulate", { method: "POST" });
+      if (res.status === 401) {
+        window.location.href = "/iot-login";
+        return;
+      }
       const body = await res.json();
       if (!res.ok) {
         throw new Error(body?.error || "Simulation failed");
@@ -313,6 +329,12 @@ export function IoTSecurityDashboard() {
             <div className="mt-2 flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#686963]">
               <Activity size={17} /> Event investigation
             </div>
+            <Link
+              href="/"
+              className="mt-4 flex items-center gap-3 rounded-xl border border-transparent px-3 py-3 text-sm font-medium text-[#686963] transition hover:border-[#D8D3C8] hover:bg-[#DCD7CC] hover:text-[#242522]"
+            >
+              <ArrowLeft size={17} /> Back to Dashboard
+            </Link>
           </div>
 
           <div className="mt-auto rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] p-4">
@@ -343,7 +365,7 @@ export function IoTSecurityDashboard() {
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-[#686963]">
-                    HFME 2.0 / Risk correlation and event triage
+                    HFME 2.0 / Fixed 70:30 Technical Threat &amp; HFS Risk Correlation
                   </p>
                 </div>
               </div>
@@ -361,6 +383,13 @@ export function IoTSecurityDashboard() {
                     </span>
                   )}
                 </div>
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC]"
+                >
+                  <ArrowLeft size={15} />
+                  <span>Main Dashboard</span>
+                </Link>
                 <button
                   type="button"
                   onClick={() => setDarkMode((current) => !current)}
@@ -391,6 +420,14 @@ export function IoTSecurityDashboard() {
                 >
                   <Zap size={15} className={busy ? "animate-pulse" : ""} />
                   {busy ? "Generating…" : "Simulate event"}
+                </button>
+                <button
+                  onClick={() => void handleSignOut()}
+                  title="Sign out of IoT Console"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3 py-2.5 text-sm font-medium text-[#9B3932] transition hover:bg-[#9B3932]/10"
+                >
+                  <LogOut size={15} />
+                  <span className="hidden sm:inline">Sign out</span>
                 </button>
               </div>
             </div>
@@ -614,7 +651,7 @@ export function IoTSecurityDashboard() {
                             <SeverityBadge severity={selectedEvent.severity} />
                           </div>
                           <div>
-                            <p className="text-lg font-semibold capitalize text-[#242522]">
+                            <p className="text-lg font-semibold text-[#242522]">
                               {selectedEvent.event_type.replaceAll("_", " ")}
                             </p>
                             <p className="mt-1 text-xs text-[#686963]">
@@ -624,17 +661,17 @@ export function IoTSecurityDashboard() {
                           </div>
                           <div className="space-y-4 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] p-4">
                             <ScoreBar
-                              label="Technical threat"
+                              label="Technical threat (70% weight)"
                               value={selectedEvent.technical_threat_score}
                               color="cyan"
                             />
                             <ScoreBar
-                              label="Human friction (HFS)"
+                              label="Human friction - HFS (30% weight)"
                               value={selectedEvent.human_friction_score}
                               color="violet"
                             />
                             <ScoreBar
-                              label="Combined risk"
+                              label="Combined risk (0.70 × Threat + 0.30 × HFS)"
                               value={selectedEvent.combined_risk_score}
                               color="rose"
                             />

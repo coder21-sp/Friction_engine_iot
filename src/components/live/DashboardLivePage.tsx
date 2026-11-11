@@ -9,6 +9,7 @@ import {
   Bot,
   Clock3,
   Layers,
+  Shield,
   TrendingUp,
   Users,
 } from 'lucide-react';
@@ -75,6 +76,25 @@ function DashboardContent({ snapshot }: { snapshot: LiveSnapshot }) {
             HFME is ingesting live behavioral signals, recalculating friction, scoring anomalies,
             forecasting risk, and refreshing natural-language recommendations in real time.
           </p>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/iot-security"
+              className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-xs font-medium text-cyan-200 transition hover:bg-cyan-400/20"
+            >
+              <Shield className="h-3.5 w-3.5" />
+              Open IoT Security Dashboard
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+            <Link
+              href="/workflows"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+            >
+              <Layers className="h-3.5 w-3.5" />
+              View Workflows
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <MetricCard

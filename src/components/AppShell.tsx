@@ -11,6 +11,7 @@ import { ConnectionBadge } from '@/components/live/ConnectionBadge';
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard' },
   { href: '/workflows', label: 'Workflows' },
+  { href: '/iot-security', label: 'IoT Security' },
   { href: '/admin', label: 'Admin' },
 ];
 
@@ -51,7 +52,10 @@ export function AppShell({
 
           <div className="hidden items-center gap-2 md:flex">
             {NAV_ITEMS.map((item) => {
-              const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const active =
+                item.href === '/'
+                  ? pathname === '/'
+                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
               return (
                 <Link
                   key={item.href}
@@ -83,6 +87,29 @@ export function AppShell({
               Sign out
             </button>
           </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="flex items-center gap-2 overflow-x-auto px-4 pb-3 sm:px-6 md:hidden">
+          {NAV_ITEMS.map((item) => {
+            const active =
+              item.href === '/'
+                ? pathname === '/'
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                  active
+                    ? 'bg-white text-slate-950'
+                    : 'text-slate-300 hover:bg-white/10 hover:text-white'
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
       </header>
 

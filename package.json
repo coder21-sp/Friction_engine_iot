@@ -4,8 +4,9 @@
   "description": "Human Friction Mapping Engine with AI Monitoring",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && node scripts/prepare-standalone.mjs",
+    "dev:all": "node scripts/dev-server.mjs",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack && node scripts/prepare-standalone.mjs",
     "start": "node .next/standalone/server.js",
     "lint": "next lint",
     "db:generate": "prisma generate",
