@@ -2,34 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  Activity,
-  AlertTriangle,
-  ArrowLeft,
-  Bell,
-  CheckCircle2,
-  ChevronRight,
-  CircleHelp,
-  Clock3,
-  Cpu,
-  Database,
-  Filter,
-  Gauge,
-  LayoutDashboard,
-  LockKeyhole,
-  LogOut,
-  Moon,
-  Sun,
-  RefreshCw,
-  Search,
-  Server,
-  Shield,
-  ShieldAlert,
-  ShieldCheck,
-  Wifi,
-  X,
-  Zap,
-} from "lucide-react";
+import { Activity, AlertTriangle, ArrowLeft, ChevronRight, CircleHelp, Clock3, Cpu, Database, Filter, Gauge, LayoutDashboard, LockKeyhole, LogOut, Moon, Sun, RefreshCw, Search, Server, Shield, ShieldAlert, ShieldCheck, Wifi, X, Zap } from 'lucide-react';
 
 type IoTEvent = {
   event_id: string;
@@ -68,7 +41,7 @@ type Snapshot = {
 type SeverityFilter = "all" | "low" | "medium" | "high";
 
 const panel =
-  "rounded-2xl border border-[#D8D3C8] bg-[#EAE6DD] shadow-[0_8px_24px_rgba(36,37,34,0.07)]";
+  "rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] shadow-[0_8px_24px_rgba(36,37,34,0.07)]";
 const muted = "text-[#686963]";
 const severityStyle: Record<IoTEvent["severity"], string> = {
   low: "border-[#4F5B45]/30 bg-[#4F5B45]/10 text-[#4F5B45]",
@@ -99,7 +72,7 @@ function SeverityBadge({ severity }: { severity: IoTEvent["severity"] }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold capitalize ${severityStyle[severity]}`}
+      className={`inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1 text-xs font-semibold capitalize ${severityStyle[severity]}`}
     >
       <Icon size={13} />
       {severity}
@@ -132,9 +105,9 @@ function ScoreBar({
           <span className="text-[#686963]"> / 100</span>
         </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-[#E3DFD5]">
+      <div className="h-2 overflow-hidden rounded-sm bg-[#E3DFD5]">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${colors[color]}`}
+          className={`h-full rounded-sm transition-all duration-500 ${colors[color]}`}
           style={{ width: `${safeValue}%` }}
         />
       </div>
@@ -164,7 +137,7 @@ function Metric({
 
   return (
     <div
-      className={`${panel} p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#BDB8AC]`}
+      className={`${panel} p-5 transition duration-200  hover:border-[#BDB8AC]`}
     >
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -173,7 +146,7 @@ function Metric({
             {value}
           </p>
         </div>
-        <div className={`rounded-xl p-3 ring-1 ${tones[tone]}`}>{icon}</div>
+        <div className={`rounded-sm p-3 ring-1 ${tones[tone]}`}>{icon}</div>
       </div>
       <p className="mt-3 text-xs text-[#686963]">{detail}</p>
     </div>
@@ -308,7 +281,7 @@ export function IoTSecurityDashboard() {
       <div className="flex min-h-screen">
         <aside className="hidden w-64 shrink-0 border-r border-[#D8D3C8] bg-[#EAE6DD] p-5 lg:flex lg:flex-col">
           <div className="flex items-center gap-3 px-2 py-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8F4937]/10 text-[#8F4937] ring-1 ring-[#8F4937]/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#8F4937]/10 text-[#8F4937] ring-1 ring-[#8F4937]/20">
               <Shield size={22} />
             </div>
             <div>
@@ -325,24 +298,24 @@ export function IoTSecurityDashboard() {
             <p className="px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#817F76]">
               Workspace
             </p>
-            <div className="mt-3 flex items-center gap-3 rounded-xl border border-[#8F4937]/35 bg-[#8F4937]/10 px-3 py-3 text-sm font-medium text-[#8F4937]">
+            <div className="mt-3 flex items-center gap-3 rounded-sm border border-[#8F4937]/35 bg-[#8F4937]/10 px-3 py-3 text-sm font-medium text-[#8F4937]">
               <LayoutDashboard size={17} /> Security overview
             </div>
-            <div className="mt-2 flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#686963]">
+            <div className="mt-2 flex items-center gap-3 rounded-sm px-3 py-3 text-sm text-[#686963]">
               <Cpu size={17} /> Device inventory
             </div>
-            <div className="mt-2 flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[#686963]">
+            <div className="mt-2 flex items-center gap-3 rounded-sm px-3 py-3 text-sm text-[#686963]">
               <Activity size={17} /> Event investigation
             </div>
             <Link
               href="/"
-              className="mt-4 flex items-center gap-3 rounded-xl border border-transparent px-3 py-3 text-sm font-medium text-[#686963] transition hover:border-[#D8D3C8] hover:bg-[#DCD7CC] hover:text-[#242522]"
+              className="mt-4 flex items-center gap-3 rounded-sm border border-transparent px-3 py-3 text-sm font-medium text-[#686963] transition hover:border-[#D8D3C8] hover:bg-[#DCD7CC] hover:text-[#242522]"
             >
               <ArrowLeft size={17} /> Back to Dashboard
             </Link>
           </div>
 
-          <div className="mt-auto rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] p-4">
+          <div className="mt-auto rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] p-4">
             <div className="flex items-center gap-2 text-xs font-semibold text-[#A47A35]">
               <CircleHelp size={15} /> Research mode
             </div>
@@ -354,10 +327,10 @@ export function IoTSecurityDashboard() {
         </aside>
 
         <div className="min-w-0 flex-1">
-          <header className="sticky top-0 z-20 border-b border-[#D8D3C8] bg-[#EAE6DD]/95 px-4 py-4 backdrop-blur-xl sm:px-7">
+          <header className="sticky top-0 z-20 border-b border-[#D8D3C8] bg-[#EAE6DD]/95 px-4 py-4  sm:px-7">
             <div className="mx-auto flex max-w-[1600px] flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8F4937]/10 text-[#8F4937] lg:hidden">
+                <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#8F4937]/10 text-[#8F4937] lg:hidden">
                   <Shield size={21} />
                 </div>
                 <div>
@@ -378,8 +351,8 @@ export function IoTSecurityDashboard() {
               <div className="flex flex-wrap items-center gap-2">
                 <div className="mr-2 flex items-center gap-2 text-xs text-[#686963]">
                   <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4F5B45] opacity-30" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4F5B45]" />
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-sm bg-[#4F5B45] opacity-30" />
+                    <span className="relative inline-flex h-2 w-2 rounded-sm bg-[#4F5B45]" />
                   </span>
                   Local API
                   {lastUpdated && (
@@ -390,7 +363,7 @@ export function IoTSecurityDashboard() {
                 </div>
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC]"
+                  className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC]"
                 >
                   <ArrowLeft size={15} />
                   <span>Main Dashboard</span>
@@ -402,7 +375,7 @@ export function IoTSecurityDashboard() {
                     darkMode ? "Switch to light mode" : "Switch to dark mode"
                   }
                   aria-pressed={darkMode}
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC]"
+                  className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC]"
                 >
                   {darkMode ? <Sun size={15} /> : <Moon size={15} />}
                   <span>{darkMode ? "Light mode" : "Dark mode"}</span>
@@ -410,7 +383,7 @@ export function IoTSecurityDashboard() {
                 <button
                   onClick={() => void refresh()}
                   disabled={refreshing}
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC] disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2.5 text-sm font-medium text-[#34352F] transition hover:border-[#BDB8AC] hover:bg-[#DCD7CC] disabled:opacity-50"
                 >
                   <RefreshCw
                     size={15}
@@ -421,7 +394,7 @@ export function IoTSecurityDashboard() {
                 <button
                   onClick={() => void simulate()}
                   disabled={busy || refreshing}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#8F4937] px-3.5 py-2.5 text-sm font-semibold text-[#FBFAF6] transition hover:bg-[#A9634E] disabled:cursor-wait disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-sm bg-[#8F4937] px-3.5 py-2.5 text-sm font-semibold text-[#FBFAF6] transition hover:bg-[#A9634E] disabled:cursor-wait disabled:opacity-50"
                 >
                   <Zap size={15} className={busy ? "animate-pulse" : ""} />
                   {busy ? "Generating…" : "Simulate event"}
@@ -429,7 +402,7 @@ export function IoTSecurityDashboard() {
                 <button
                   onClick={() => void handleSignOut()}
                   title="Sign out of IoT Console"
-                  className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3 py-2.5 text-sm font-medium text-[#9B3932] transition hover:bg-[#9B3932]/10"
+                  className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3 py-2.5 text-sm font-medium text-[#9B3932] transition hover:bg-[#9B3932]/10"
                 >
                   <LogOut size={15} />
                   <span className="hidden sm:inline">Sign out</span>
@@ -442,7 +415,7 @@ export function IoTSecurityDashboard() {
             {error && (
               <div
                 role="alert"
-                className="flex items-start gap-3 rounded-xl border border-[#9B3932]/30 bg-[#9B3932]/10 p-4 text-sm text-[#9B3932]"
+                className="flex items-start gap-3 rounded-sm border border-[#9B3932]/30 bg-[#9B3932]/10 p-4 text-sm text-[#9B3932]"
               >
                 <AlertTriangle size={18} className="mt-0.5 shrink-0" />
                 <div className="flex-1">{error}</div>
@@ -503,7 +476,7 @@ export function IoTSecurityDashboard() {
                           Inspect synthetic telemetry and risk classifications
                         </p>
                       </div>
-                      <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#D8D3C8] px-3 py-1.5 text-xs text-[#686963]">
+                      <span className="inline-flex w-fit items-center gap-2 rounded-sm border border-[#D8D3C8] px-3 py-1.5 text-xs text-[#686963]">
                         <Activity size={13} className="text-[#8F4937]" />
                         {filteredEvents.length} visible
                       </span>
@@ -519,10 +492,10 @@ export function IoTSecurityDashboard() {
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
                           placeholder="Search device, event, reason…"
-                          className="w-full rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] py-2.5 pl-9 pr-3 text-sm text-[#34352F] outline-none placeholder:text-[#817F76] focus:border-[#8F4937]/70"
+                          className="w-full rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] py-2.5 pl-9 pr-3 text-sm text-[#34352F] outline-none placeholder:text-[#817F76] focus:border-[#8F4937]/70"
                         />
                       </label>
-                      <label className="flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] px-3">
+                      <label className="flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] px-3">
                         <Filter size={15} className="text-[#686963]" />
                         <select
                           value={severityFilter}
@@ -664,7 +637,7 @@ export function IoTSecurityDashboard() {
                               {formatTime(selectedEvent.timestamp)}
                             </p>
                           </div>
-                          <div className="space-y-4 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] p-4">
+                          <div className="space-y-4 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] p-4">
                             <ScoreBar
                               label="Technical threat (70% weight)"
                               value={selectedEvent.technical_threat_score}
@@ -747,7 +720,7 @@ export function IoTSecurityDashboard() {
                         {data.devices.map((device) => (
                           <div
                             key={device.device_id}
-                            className="flex items-start gap-3 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] p-3"
+                            className="flex items-start gap-3 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] p-3"
                           >
                             <div className="rounded-lg bg-[#8F4937]/10 p-2 text-[#8F4937]">
                               <Wifi size={16} />
@@ -770,7 +743,7 @@ export function IoTSecurityDashboard() {
                   </aside>
                 </section>
 
-                <div className="flex flex-col gap-2 rounded-xl border border-[#A47A35]/30 bg-[#A47A35]/[0.08] p-4 sm:flex-row sm:items-start">
+                <div className="flex flex-col gap-2 rounded-sm border border-[#A47A35]/30 bg-[#A47A35]/[0.08] p-4 sm:flex-row sm:items-start">
                   <AlertTriangle
                     size={17}
                     className="mt-0.5 shrink-0 text-[#A47A35]"
