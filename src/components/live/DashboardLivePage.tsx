@@ -23,9 +23,7 @@ export function DashboardLivePage({ initialSnapshot = null }: { initialSnapshot?
     <DashboardWithIntro>
       <AppShell connectionStatus={connectionStatus} connectionTimestamp={data?.generatedAt}>
         <ClientErrorBoundary>
-          {isLoading || !data ? (
-            <LoadingPanel />
-          ) : error ? (
+          {error ? (
             <div className="rounded-sm border border-red-500/20 bg-red-500/10 p-8 text-sm text-red-800 dark:text-red-200">
               <p className="mb-4 text-base font-semibold">Live AI data could not be loaded.</p>
               <button
@@ -36,6 +34,8 @@ export function DashboardLivePage({ initialSnapshot = null }: { initialSnapshot?
                 Retry live sync
               </button>
             </div>
+          ) : isLoading || !data ? (
+            <LoadingPanel />
           ) : (
             <DashboardContent snapshot={data} />
           )}

@@ -61,9 +61,7 @@ export function AdminLivePage({
   return (
     <AppShell connectionStatus={connectionStatus} connectionTimestamp={data?.generatedAt}>
       <ClientErrorBoundary>
-        {isLoading || !data || !config ? (
-          <LoadingPanel label="Loading admin AI controls..." />
-        ) : error ? (
+        {error ? (
           <div className="rounded-sm border border-red-500/20 bg-red-500/10 p-8 text-red-800 dark:text-red-200">
             <p className="mb-4 text-base font-semibold">Admin telemetry could not be loaded.</p>
             <button
@@ -74,6 +72,8 @@ export function AdminLivePage({
               Retry
             </button>
           </div>
+        ) : isLoading || !data || !config ? (
+          <LoadingPanel label="Loading admin AI controls..." />
         ) : (
           <div className="space-y-8">
             <section className="rounded-sm border border-border bg-secondary p-8 ">
