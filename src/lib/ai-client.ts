@@ -15,18 +15,20 @@ interface RequestOptions {
   method?: 'GET' | 'POST' | 'PUT';
   body?: unknown;
   cache?: RequestCache;
+  timeoutMs?: number;
 }
 
 class AIClient {
   private baseUrl: string;
 
   constructor(baseUrl: string = AI_SERVICE_URL) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = baseUrl.replace(/\/+$/, '');
   }
 
   private async requestJson<T>(path: string, options: RequestOptions = {}) {
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: options.method || 'GET',
+      signal: options.timeoutMs ? AbortSignal.timeout(options.timeoutMs) : undefined,
       headers: {
         'Content-Type': 'application/json',
         'X-HFME-AI-Key': AI_INTERNAL_API_KEY,
@@ -47,7 +49,7 @@ class AIClient {
   }
 
   async getLiveSnapshot(): Promise<LiveSnapshot> {
-    return this.requestJson<LiveSnapshot>('/live/snapshot');
+    return this.requestJson<LiveSnapshot>('/live/snapshot', { timeoutMs: 8000 });
   }
 
   async getModelStatus(): Promise<ModelStatus> {

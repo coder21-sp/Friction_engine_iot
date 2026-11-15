@@ -61,9 +61,7 @@ export function WorkflowDetailLivePage({
   return (
     <AppShell connectionStatus={connectionStatus} connectionTimestamp={data?.generatedAt}>
       <ClientErrorBoundary>
-        {isLoading || !data ? (
-          <LoadingPanel label="Streaming workflow detail..." />
-        ) : error ? (
+        {error ? (
           <div className="rounded-sm border border-red-500/20 bg-red-500/10 p-8 text-red-800 dark:text-red-200">
             <p className="mb-4 text-base font-semibold">This workflow could not connect to the live AI backend.</p>
             <button
@@ -74,6 +72,8 @@ export function WorkflowDetailLivePage({
               Retry
             </button>
           </div>
+        ) : isLoading || !data ? (
+          <LoadingPanel label="Streaming workflow detail..." />
         ) : !workflow ? (
           <div className="rounded-sm border border-border bg-secondary p-8 text-muted-foreground">
             <p className="text-lg font-semibold">Workflow not found in the live snapshot.</p>

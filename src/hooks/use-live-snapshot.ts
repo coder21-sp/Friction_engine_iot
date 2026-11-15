@@ -9,6 +9,7 @@ async function fetchLiveSnapshot() {
   const response = await fetch('/api/ai/live', {
     cache: 'no-store',
     credentials: 'same-origin',
+    signal: AbortSignal.timeout(12000),
   });
 
   if (!response.ok) {
@@ -24,6 +25,7 @@ export function useLiveSnapshot(initialSnapshot: LiveSnapshot | null = null) {
     queryKey: ['live-snapshot'],
     queryFn: fetchLiveSnapshot,
     staleTime: 0,
+    retry: 1,
     refetchOnWindowFocus: false,
     refetchInterval: 1000,
     refetchIntervalInBackground: true,
@@ -74,7 +76,7 @@ export function useLiveSnapshot(initialSnapshot: LiveSnapshot | null = null) {
     return () => {
       eventSource.close();
     };
-  }, [onError, onSnapshot]);
+  }, []);
 
   const data = useMemo(() => {
     const snapshots = [streamSnapshot, query.data].filter(
