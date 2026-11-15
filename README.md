@@ -220,13 +220,15 @@ The demo rules flag repeated authentication failures (5+), high packet rates (10
 
 ## Railway service configuration
 
-This repository contains two services. Keep their root directory at the repository root so Docker can copy the shared `data` directory.
+This repository contains two services. Keep their root directory at the repository root so Docker can copy the shared `data` directory. Configure each service directly in Railway:
 
-| Service | Railway config file | Dockerfile |
+| Setting | Web | AI API |
 | --- | --- | --- |
-| Web | `/railway.json` | `Dockerfile` |
-| AI API | `/ai-service/railway.json` | `ai-service/Dockerfile` |
+| Dockerfile path | `Dockerfile` | `ai-service/Dockerfile` |
+| Start command | `node server.js` | `sh -c 'uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}'` |
+| Health check | `/login` | `/health` |
+| Health timeout | 30 seconds | 120 seconds |
 
-Set the AI service's **Railway Config File** setting explicitly. Otherwise Railway reads the root `railway.json`, builds a second web server, and workflow requests fail while its web health check still passes.
+A shared root `railway.json` previously forced both services to use the web Dockerfile. It has been removed so the per-service settings take effect. The AI health endpoint must identify the Python service; a generic web health response does not verify the AI API.
 
-On the web service, reference `AI_SERVICE_URL` as `https://${{hfme-ai-service.RAILWAY_PUBLIC_DOMAIN}}` and `AI_INTERNAL_API_KEY` as `${{hfme-ai-service.AI_INTERNAL_API_KEY}}` (adjust the service name if renamed). Keep the existing API key on the AI service. After deployment, verify that the AI `/health` identifies the Python service, and that authenticated web requests to `/api/ai/live` return JSON snapshots and `/api/ai/stream` return snapshot events.
+On the web service, reference `AI_SERVICE_URL` as `https://${{hfme-ai-service.RAILWAY_PUBLIC_DOMAIN}}` and `AI_INTERNAL_API_KEY` as `${{hfme-ai-service.AI_INTERNAL_API_KEY}}` (adjust the service name if renamed). Keep the existing API key on the AI service. After deployment, verify that authenticated web requests to `/api/ai/live` return JSON snapshots and `/api/ai/stream` return snapshot events.
