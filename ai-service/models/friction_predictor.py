@@ -1,3 +1,5 @@
+from threading import RLock
+from .locking import model_operation
 import numpy as np
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
@@ -6,6 +8,7 @@ from pathlib import Path
 
 class FrictionPredictor:
     def __init__(self):
+        self._model_lock = RLock()
         self.model = Ridge(alpha=1.0)
         self.scaler = StandardScaler()
         self.is_trained = False
@@ -13,6 +16,7 @@ class FrictionPredictor:
         self.model_path.mkdir(exist_ok=True)
         self.window_size = 5
     
+    @model_operation
     def train(self, features: np.ndarray):
         """Train the friction prediction model"""
         if len(features) < self.window_size + 1:
@@ -40,6 +44,7 @@ class FrictionPredictor:
             y.append(data[i + self.window_size, 0])  # Predict friction score
         return np.array(X), np.array(y)
     
+    @model_operation
     def predict(self, features: np.ndarray, horizon: int = 5):
         """
         Predict future friction scores
@@ -138,6 +143,7 @@ class FrictionPredictor:
             "predicted_avg": float(np.mean(predictions))
         }
     
+    @model_operation
     def load_model(self):
         """Load pretrained model"""
         try:
