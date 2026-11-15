@@ -1,7 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Sparkles, AlertTriangle, ArrowRight } from 'lucide-react';
 
 interface AIInsightCardProps {
     insight: {
@@ -18,24 +16,16 @@ export function AIInsightCard({ insight }: AIInsightCardProps) {
     const isAnomaly = insight.insightType === 'anomaly';
 
     return (
-        <motion.div
-            whileHover={{ y: -5 }}
-            className={`relative overflow-hidden rounded-xl border p-6 transition-colors ${isAnomaly
-                    ? 'bg-red-500/5 border-red-500/20 hover:border-red-500/40'
-                    : 'bg-indigo-500/5 border-indigo-500/20 hover:border-indigo-500/40'
-                }`}
+        <article
+            className="rounded-sm border border-border bg-card p-6"
         >
-            {/* Glowing background effect */}
-            <div className={`absolute -right-10 -top-10 h-32 w-32 rounded-full blur-3xl opacity-20 ${isAnomaly ? 'bg-red-500' : 'bg-indigo-500'
-                }`} />
-
             <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                    <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border ${isAnomaly
-                            ? 'bg-red-500/10 text-red-400 border-red-500/20'
-                            : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                    <div className={`flex items-center gap-2 px-3 py-1 rounded-sm text-xs font-medium border ${isAnomaly
+                            ? 'bg-red-500/10 text-red-800 dark:text-red-200 border-red-500/20'
+                            : 'bg-indigo-500/10 text-indigo-800 dark:text-indigo-200 border-indigo-500/20'
                         }`}>
-                        {isAnomaly ? <AlertTriangle className="h-3 w-3" /> : <Sparkles className="h-3 w-3" />}
+
                         {insight.insightType.toUpperCase()}
                     </div>
                     <span className="text-xs text-muted-foreground">
@@ -57,14 +47,8 @@ export function AIInsightCard({ insight }: AIInsightCardProps) {
                         <span className="text-xl font-bold text-foreground">{insight.impactScore.toFixed(1)}</span>
                     </div>
 
-                    <button className={`p-2 rounded-full transition-colors ${isAnomaly
-                            ? 'bg-red-500/10 hover:bg-red-500/20 text-red-500'
-                            : 'bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-500'
-                        }`}>
-                        <ArrowRight className="h-4 w-4" />
-                    </button>
                 </div>
             </div>
-        </motion.div>
+        </article>
     );
 }

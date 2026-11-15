@@ -58,3 +58,50 @@
     font-family: "Aptos", "Segoe UI", sans-serif;
   }
 }
+
+/* Monitoring uses opaque paper surfaces and a single evergreen accent. */
+@layer base {
+  :root {
+    --background: 45 20% 94%;
+    --foreground: 150 10% 13%;
+    --card: 45 25% 98%;
+    --card-foreground: 150 10% 13%;
+    --primary: 150 27% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 45 13% 89%;
+    --secondary-foreground: 150 10% 13%;
+    --muted: 45 13% 89%;
+    --muted-foreground: 140 5% 35%;
+    --border: 45 10% 76%;
+    --input: 45 10% 76%;
+    --ring: 150 27% 25%;
+    --radius: 0.125rem;
+  }
+
+  .dark {
+    --background: 150 8% 9%;
+    --foreground: 45 20% 96%;
+    --card: 150 7% 14%;
+    --card-foreground: 45 20% 96%;
+    --primary: 145 32% 74%;
+    --primary-foreground: 150 8% 9%;
+    --secondary: 150 6% 21%;
+    --secondary-foreground: 45 20% 96%;
+    --muted: 150 6% 21%;
+    --muted-foreground: 45 9% 75%;
+    --border: 150 5% 37%;
+    --input: 150 5% 37%;
+    --ring: 145 32% 74%;
+  }
+
+  body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; }
+  h1, h2, h3 { text-wrap: balance; }
+  button, input, select, textarea { font: inherit; }
+  button, a, input, select, textarea { outline-offset: 4px; }
+  :focus-visible { outline: 2px solid hsl(var(--ring)); }
+  button:not(:disabled), a { cursor: pointer; }
+  button:hover:not(:disabled) { box-shadow: inset 0 0 0 1px currentColor; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+}

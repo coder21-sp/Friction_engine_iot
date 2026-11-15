@@ -4,7 +4,7 @@ import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "HFME 2.0 - Human Friction Mapping Engine",
-  description: "AI-powered behavioral analytics platform for workflow friction detection",
+  description: "Monitor workflow delays, completion rates, and unusual device activity",
 };
 
 export default function RootLayout({

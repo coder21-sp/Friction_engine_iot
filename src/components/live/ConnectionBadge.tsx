@@ -25,22 +25,22 @@ export function ConnectionBadge({
   const config = {
     connecting: {
       label: 'Connecting',
-      className: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-100',
+      className: 'border-border bg-secondary text-primary',
       icon: <RefreshCcw className="h-3.5 w-3.5 animate-spin" />,
     },
     live: {
       label: 'Live SSE connected',
-      className: 'border-emerald-400/20 bg-emerald-400/10 text-emerald-100',
+      className: 'border-emerald-400/20 bg-emerald-400/10 text-emerald-800 dark:text-emerald-200',
       icon: <Activity className="h-3.5 w-3.5" />,
     },
     reconnecting: {
       label: 'Reconnecting',
-      className: 'border-amber-400/20 bg-amber-400/10 text-amber-100',
+      className: 'border-amber-400/20 bg-amber-400/10 text-amber-800 dark:text-amber-200',
       icon: <RefreshCcw className="h-3.5 w-3.5 animate-spin" />,
     },
     error: {
       label: 'Offline',
-      className: 'border-red-400/20 bg-red-400/10 text-red-100',
+      className: 'border-red-400/20 bg-red-400/10 text-red-800 dark:text-red-200',
       icon: <AlertTriangle className="h-3.5 w-3.5" />,
     },
   }[status];
@@ -57,7 +57,7 @@ export function ConnectionBadge({
 
   return (
     <div
-      className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${config.className}`}
+      className={`inline-flex items-center gap-2 rounded-sm border px-3 py-1.5 text-xs ${config.className}`}
     >
       {config.icon}
       {config.label}

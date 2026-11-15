@@ -23,7 +23,7 @@ export class ClientErrorBoundary extends React.Component<
     if (this.state.hasError) {
       return (
         this.props.fallback || (
-          <div className="rounded-3xl border border-red-500/30 bg-red-500/10 p-6 text-sm text-red-100">
+          <div className="rounded-sm border border-red-500/30 bg-red-500/10 p-6 text-sm text-red-800 dark:text-red-200">
             A live rendering error occurred. Refresh the page to reconnect to the AI stream.
           </div>
         )

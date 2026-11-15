@@ -3,22 +3,7 @@
 import { Suspense, useEffect, useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import {
-  ArrowLeft,
-  CheckCircle2,
-  Cpu,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  Moon,
-  Radio,
-  Server,
-  Shield,
-  ShieldAlert,
-  Sun,
-  Wifi,
-} from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Cpu, Eye, EyeOff, Lock, Mail, Moon, Radio, Server, Shield, ShieldAlert, Sun, Wifi } from 'lucide-react';
 
 function IoTLoginForm() {
   const router = useRouter();
@@ -90,10 +75,10 @@ function IoTLoginForm() {
       `}</style>
 
       {/* Top bar */}
-      <header className="border-b border-[#D8D3C8] bg-[#EAE6DD]/95 px-6 py-4 backdrop-blur-xl">
+      <header className="border-b border-[#D8D3C8] bg-[#EAE6DD]/95 px-6 py-4 ">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8F4937]/10 text-[#8F4937] ring-1 ring-[#8F4937]/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-[#8F4937]/10 text-[#8F4937] ring-1 ring-[#8F4937]/20">
               <Shield size={22} />
             </div>
             <div>
@@ -111,14 +96,14 @@ function IoTLoginForm() {
               type="button"
               onClick={() => setDarkMode((prev) => !prev)}
               aria-label="Toggle theme"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2 text-xs font-medium text-[#34352F] transition hover:bg-[#DCD7CC]"
+              className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2 text-xs font-medium text-[#34352F] transition hover:bg-[#DCD7CC]"
             >
               {darkMode ? <Sun size={14} /> : <Moon size={14} />}
               <span>{darkMode ? 'Light' : 'Dark'}</span>
             </button>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2 text-xs font-medium text-[#34352F] transition hover:bg-[#DCD7CC]"
+              className="inline-flex items-center gap-2 rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] px-3.5 py-2 text-xs font-medium text-[#34352F] transition hover:bg-[#DCD7CC]"
             >
               <ArrowLeft size={14} />
               <span>Main App Login</span>
@@ -132,7 +117,7 @@ function IoTLoginForm() {
         <div className="grid w-full gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           {/* Left Info Panel */}
           <section className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#8F4937]/30 bg-[#8F4937]/10 px-3.5 py-1.5 text-xs font-semibold text-[#8F4937]">
+            <div className="inline-flex items-center gap-2 rounded-sm border border-[#8F4937]/30 bg-[#8F4937]/10 px-3.5 py-1.5 text-xs font-semibold text-[#8F4937]">
               <Radio size={14} className="animate-pulse" />
               RESTRICTED ACCESS · SOC TELEMETRY NODE
             </div>
@@ -153,39 +138,39 @@ function IoTLoginForm() {
                 Connected Hardware Nodes
               </p>
               <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
+                <div className="rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
                   <div className="flex items-center gap-2 text-xs font-semibold text-[#8F4937]">
                     <Cpu size={15} /> iot-cam-01
                   </div>
                   <p className="mt-1 text-xs text-[#686963]">Campus IP Camera</p>
                   <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-medium text-[#4F5B45]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#4F5B45]" /> Lab A · Active
+                    <span className="h-1.5 w-1.5 rounded-sm bg-[#4F5B45]" /> Lab A · Active
                   </span>
                 </div>
 
-                <div className="rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
+                <div className="rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
                   <div className="flex items-center gap-2 text-xs font-semibold text-[#8F4937]">
                     <Wifi size={15} /> iot-sensor-02
                   </div>
                   <p className="mt-1 text-xs text-[#686963]">Environmental Sensor</p>
                   <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-medium text-[#4F5B45]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#4F5B45]" /> Lab A · Active
+                    <span className="h-1.5 w-1.5 rounded-sm bg-[#4F5B45]" /> Lab A · Active
                   </span>
                 </div>
 
-                <div className="rounded-xl border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
+                <div className="rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] p-3.5 shadow-sm">
                   <div className="flex items-center gap-2 text-xs font-semibold text-[#8F4937]">
                     <Server size={15} /> iot-lock-03
                   </div>
                   <p className="mt-1 text-xs text-[#686963]">Smart Door Lock</p>
                   <span className="mt-2 inline-flex items-center gap-1 text-[10px] font-medium text-[#4F5B45]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#4F5B45]" /> Main Gate · Active
+                    <span className="h-1.5 w-1.5 rounded-sm bg-[#4F5B45]" /> Main Gate · Active
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl border border-[#D8D3C8] bg-[#EAE6DD]/70 p-4 text-xs text-[#686963]">
+            <div className="rounded-sm border border-[#D8D3C8] bg-[#EAE6DD]/70 p-4 text-xs text-[#686963]">
               <span className="font-semibold text-[#8F4937]">Research Prototype:</span> Real-time
               correlation between technical telemetry (packet bursts, auth failures) and Human
               Friction Scores (HFS).
@@ -193,9 +178,9 @@ function IoTLoginForm() {
           </section>
 
           {/* Right Login Form */}
-          <section className="rounded-2xl border border-[#D8D3C8] bg-[#EAE6DD] p-8 shadow-[0_12px_32px_rgba(36,37,34,0.08)]">
+          <section className="rounded-sm border border-[#D8D3C8] bg-[#EAE6DD] p-8 shadow-[0_12px_32px_rgba(36,37,34,0.08)]">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#8F4937] text-white shadow-md shadow-[#8F4937]/20">
+              <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-[#8F4937] text-foreground shadow-md shadow-[#8F4937]/20">
                 <ShieldAlert size={24} />
               </div>
               <div>
@@ -211,7 +196,7 @@ function IoTLoginForm() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#686963]">
                   Security Officer Email
                 </span>
-                <div className="flex items-center gap-3 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] px-4 py-3">
+                <div className="flex items-center gap-3 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] px-4 py-3">
                   <Mail className="h-4 w-4 text-[#817F76]" />
                   <input
                     className="w-full bg-transparent text-sm text-[#242522] outline-none placeholder:text-[#A5A69A]"
@@ -229,7 +214,7 @@ function IoTLoginForm() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#686963]">
                   Access Password
                 </span>
-                <div className="flex items-center gap-3 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] px-4 py-3">
+                <div className="flex items-center gap-3 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] px-4 py-3">
                   <Lock className="h-4 w-4 text-[#817F76]" />
                   <input
                     className="w-full bg-transparent text-sm text-[#242522] outline-none placeholder:text-[#A5A69A]"
@@ -252,13 +237,13 @@ function IoTLoginForm() {
               </label>
 
               {error && (
-                <div className="rounded-xl border border-[#9B3932]/30 bg-[#9B3932]/10 px-4 py-3 text-xs font-medium text-[#9B3932]">
+                <div className="rounded-sm border border-[#9B3932]/30 bg-[#9B3932]/10 px-4 py-3 text-xs font-medium text-[#9B3932]">
                   {error}
                 </div>
               )}
 
               <button
-                className="w-full rounded-xl bg-[#8F4937] px-4 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#8F4937]/25 transition hover:bg-[#A9634E] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-sm bg-[#8F4937] px-4 py-3.5 text-sm font-semibold text-foreground shadow-md shadow-[#8F4937]/25 transition hover:bg-[#A9634E] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
                 type="submit"
                 disabled={isPending}
               >
@@ -266,7 +251,7 @@ function IoTLoginForm() {
               </button>
             </form>
 
-            <div className="mt-6 rounded-xl border border-[#D8D3C8] bg-[#F0EDE5] p-3.5 text-xs text-[#686963]">
+            <div className="mt-6 rounded-sm border border-[#D8D3C8] bg-[#F0EDE5] p-3.5 text-xs text-[#686963]">
               <div className="flex items-center gap-2 font-semibold text-[#4F5B45]">
                 <CheckCircle2 size={15} /> Demo Credentials Ready
               </div>

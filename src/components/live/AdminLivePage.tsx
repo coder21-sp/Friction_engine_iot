@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { Activity, BrainCircuit, RefreshCcw, ShieldCheck, SlidersHorizontal } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 
 import { AppShell } from '@/components/AppShell';
 import { ClientErrorBoundary } from '@/components/ClientErrorBoundary';
@@ -64,10 +64,10 @@ export function AdminLivePage({
         {isLoading || !data || !config ? (
           <LoadingPanel label="Loading admin AI controls..." />
         ) : error ? (
-          <div className="rounded-3xl border border-red-500/20 bg-red-500/10 p-8 text-red-100">
+          <div className="rounded-sm border border-red-500/20 bg-red-500/10 p-8 text-red-800 dark:text-red-200">
             <p className="mb-4 text-base font-semibold">Admin telemetry could not be loaded.</p>
             <button
-              className="rounded-full bg-white px-4 py-2 text-sm font-medium text-slate-950"
+              className="rounded-sm bg-white px-4 py-2 text-sm font-medium text-slate-950"
               onClick={() => refetch()}
               type="button"
             >
@@ -76,12 +76,12 @@ export function AdminLivePage({
           </div>
         ) : (
           <div className="space-y-8">
-            <section className="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur">
-              <p className="text-sm uppercase tracking-[0.28em] text-cyan-200/70">Admin AI cockpit</p>
-              <h1 className="mt-4 text-4xl font-semibold text-white">
+            <section className="rounded-sm border border-border bg-secondary p-8 ">
+              <p className="text-sm uppercase tracking-wider text-primary">Admin AI cockpit</p>
+              <h1 className="mt-4 text-4xl font-semibold text-foreground">
                 Model status, sensitivity control, and live decision logs in one place.
               </h1>
-              <p className="mt-3 max-w-3xl text-base text-slate-300">
+              <p className="mt-3 max-w-3xl text-base text-muted-foreground">
                 This page is wired directly into the streaming backend so sensitivity changes,
                 retraining actions, and operational logs reflect the same realtime AI state used by
                 the dashboard and workflow pages.
@@ -90,10 +90,10 @@ export function AdminLivePage({
 
             <section className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
               <div className="space-y-6">
-                <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <ShieldCheck className="h-4 w-4" />
-                    <p className="text-sm uppercase tracking-[0.22em]">Model status</p>
+                <div className="rounded-sm border border-border bg-card p-6">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+
+                    <p className="text-sm uppercase tracking-wide">Model status</p>
                   </div>
                   <div className="mt-5 grid gap-4 sm:grid-cols-2">
                     <AdminStat
@@ -115,34 +115,34 @@ export function AdminLivePage({
                   </div>
                 </div>
 
-                <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <BrainCircuit className="h-4 w-4" />
-                    <p className="text-sm uppercase tracking-[0.22em]">AI actions</p>
+                <div className="rounded-sm border border-border bg-card p-6">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+
+                    <p className="text-sm uppercase tracking-wide">AI actions</p>
                   </div>
                   <div className="mt-5 space-y-4">
                     <button
-                      className="flex w-full items-center justify-between rounded-[1.5rem] border border-cyan-300/20 bg-cyan-300/10 px-5 py-4 text-left text-cyan-100 transition hover:bg-cyan-300/20 disabled:opacity-60"
+                      className="flex w-full items-center justify-between rounded-sm border border-border bg-secondary px-5 py-4 text-left text-primary transition hover:bg-secondary disabled:opacity-60"
                       disabled={isPending}
                       onClick={retrainModels}
                       type="button"
                     >
                       <span>
                         <span className="block text-base font-semibold">Retrain anomaly + predictor</span>
-                        <span className="mt-1 block text-sm text-cyan-100/80">
+                        <span className="mt-1 block text-sm text-primary">
                           Force a fresh model fit on the current live behavioral history.
                         </span>
                       </span>
-                      {isPending ? <RefreshCcw className="h-5 w-5 animate-spin" /> : <Activity className="h-5 w-5" />}
+                      {isPending ? <RefreshCcw className="h-5 w-5 animate-spin" /> : null}
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6">
-                <div className="flex items-center gap-2 text-slate-300">
-                  <SlidersHorizontal className="h-4 w-4" />
-                  <p className="text-sm uppercase tracking-[0.22em]">Sensitivity controls</p>
+              <div className="rounded-sm border border-border bg-card p-6">
+                <div className="flex items-center gap-2 text-muted-foreground">
+
+                  <p className="text-sm uppercase tracking-wide">Sensitivity controls</p>
                 </div>
 
                 <div className="mt-6 grid gap-5">
@@ -192,7 +192,7 @@ export function AdminLivePage({
                   />
 
                   <button
-                    className="rounded-full bg-white px-5 py-3 font-semibold text-slate-950 transition hover:bg-slate-100 disabled:opacity-60"
+                    className="rounded-sm bg-white px-5 py-3 font-semibold text-slate-950 transition hover:bg-slate-100 disabled:opacity-60"
                     disabled={isPending}
                     onClick={saveConfig}
                     type="button"
@@ -201,7 +201,7 @@ export function AdminLivePage({
                   </button>
 
                   {notice ? (
-                    <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-100">
+                    <div className="rounded-sm border border-border bg-secondary px-4 py-3 text-sm text-primary">
                       {notice}
                     </div>
                   ) : null}
@@ -209,19 +209,19 @@ export function AdminLivePage({
               </div>
             </section>
 
-            <section className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6">
-              <p className="text-sm uppercase tracking-[0.22em] text-slate-300">Realtime AI decision log</p>
+            <section className="rounded-sm border border-border bg-card p-6">
+              <p className="text-sm uppercase tracking-wide text-muted-foreground">Realtime AI decision log</p>
               <div className="mt-5 space-y-3">
                 {data.admin.logs.map((log) => (
                   <div
                     key={log.id}
-                    className="flex flex-col gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-4 md:flex-row md:items-center md:justify-between"
+                    className="flex flex-col gap-3 rounded-sm border border-border bg-secondary p-4 md:flex-row md:items-center md:justify-between"
                   >
                     <div>
-                      <p className="text-sm font-semibold text-white">{log.message}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.22em] text-slate-400">{log.level}</p>
+                      <p className="text-sm font-semibold text-foreground">{log.message}</p>
+                      <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">{log.level}</p>
                     </div>
-                    <p className="text-xs text-slate-400">{new Date(log.timestamp).toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">{new Date(log.timestamp).toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -235,9 +235,9 @@ export function AdminLivePage({
 
 function AdminStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-      <p className="text-xs uppercase tracking-[0.22em] text-slate-400">{label}</p>
-      <p className="mt-3 text-2xl font-semibold text-white">{value}</p>
+    <div className="rounded-sm border border-border bg-secondary p-4">
+      <p className="text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
+      <p className="mt-3 text-2xl font-semibold text-foreground">{value}</p>
     </div>
   );
 }
@@ -254,14 +254,14 @@ function ToggleRow({
   onChange: (value: boolean) => void;
 }) {
   return (
-    <label className="flex items-center justify-between gap-4 rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+    <label className="flex items-center justify-between gap-4 rounded-sm border border-border bg-secondary p-4">
       <div>
-        <p className="text-sm font-semibold text-white">{label}</p>
-        <p className="mt-1 text-sm text-slate-400">{description}</p>
+        <p className="text-sm font-semibold text-foreground">{label}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{description}</p>
       </div>
       <input
         checked={checked}
-        className="h-5 w-5 rounded border-white/20 bg-slate-900 text-cyan-300"
+        className="h-5 w-5 rounded border-border bg-card text-primary"
         onChange={(event) => onChange(event.target.checked)}
         type="checkbox"
       />
@@ -287,10 +287,10 @@ function SliderRow({
   formatValue?: (value: number) => string;
 }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+    <div className="rounded-sm border border-border bg-secondary p-4">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-white">{label}</p>
-        <span className="text-sm text-cyan-100">{formatValue ? formatValue(value) : value.toFixed(2)}</span>
+        <p className="text-sm font-semibold text-foreground">{label}</p>
+        <span className="text-sm text-primary">{formatValue ? formatValue(value) : value.toFixed(2)}</span>
       </div>
       <input
         className="mt-4 w-full accent-cyan-300"
