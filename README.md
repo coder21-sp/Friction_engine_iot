@@ -217,3 +217,16 @@ Start the FastAPI service and Next.js app using the Local Development instructio
 - The authenticated web proxies are `/api/iot/snapshot`, `/api/iot/simulate`, and `/api/iot/events`.
 
 The demo rules flag repeated authentication failures (5+), high packet rates (1000+/minute), firmware changes, and unknown destinations. The illustrative combined score is `0.7 × technical_threat_score + 0.3 × human_friction_score`, both on a 0–100 scale. These thresholds and weights are provisional demonstration settings, not scientifically validated parameters. The human-friction score is currently supplied as an event input; it is not yet automatically linked to the existing HFME workflow event stream. All generated events are synthetic unless an event is explicitly submitted from another source. Do not describe this prototype as validated against real IoT traffic.
+
+## Railway service configuration
+
+This repository contains two services. Keep their root directory at the repository root so Docker can copy the shared `data` directory.
+
+| Service | Railway config file | Dockerfile |
+| --- | --- | --- |
+| Web | `/railway.json` | `Dockerfile` |
+| AI API | `/ai-service/railway.json` | `ai-service/Dockerfile` |
+
+Set the AI service's **Railway Config File** setting explicitly. Otherwise Railway reads the root `railway.json`, builds a second web server, and workflow requests fail while its web health check still passes.
+
+On the web service, reference `AI_SERVICE_URL` as `https://${{hfme-ai-service.RAILWAY_PUBLIC_DOMAIN}}` and `AI_INTERNAL_API_KEY` as `${{hfme-ai-service.AI_INTERNAL_API_KEY}}` (adjust the service name if renamed). Keep the existing API key on the AI service. After deployment, verify that the AI `/health` identifies the Python service, and that authenticated web requests to `/api/ai/live` return JSON snapshots and `/api/ai/stream` return snapshot events.
