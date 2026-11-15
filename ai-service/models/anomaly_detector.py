@@ -1,3 +1,5 @@
+from threading import RLock
+from .locking import model_operation
 import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
@@ -15,6 +17,7 @@ FEATURE_NAMES = [
 
 class AnomalyDetector:
     def __init__(self):
+        self._model_lock = RLock()
         self.model = IsolationForest(
             contamination=0.1,
             random_state=42,
@@ -22,9 +25,11 @@ class AnomalyDetector:
         )
         self.scaler = StandardScaler()
         self.is_trained = False
+        self._explainer = None
         self.model_path = Path(__file__).parent.parent / "trained_models"
         self.model_path.mkdir(exist_ok=True)
     
+    @model_operation
     def train(self, features: np.ndarray):
         """Train the anomaly detection model"""
         if len(features) < 10:
@@ -36,11 +41,13 @@ class AnomalyDetector:
         # Train model
         self.model.fit(scaled_features)
         self.is_trained = True
+        self._explainer = None
         
         # Save model
         joblib.dump(self.model, self.model_path / "anomaly_detector.pkl")
         joblib.dump(self.scaler, self.model_path / "anomaly_scaler.pkl")
     
+    @model_operation
     def detect(self, features: np.ndarray, sensitivity: float = 0.1):
         """
         Detect anomalies in friction metrics
@@ -54,6 +61,7 @@ class AnomalyDetector:
                 self.model = joblib.load(self.model_path / "anomaly_detector.pkl")
                 self.scaler = joblib.load(self.model_path / "anomaly_scaler.pkl")
                 self.is_trained = True
+                self._explainer = None
             except:
                 # Use default detection without training
                 pass
@@ -90,21 +98,25 @@ class AnomalyDetector:
             "threshold": threshold
         }
 
-    def explain(self, features: np.ndarray):
+    @model_operation
+    def explain(self, features: np.ndarray, latest_only: bool = False):
         """Return feature contributions for the latest samples."""
         if len(features) == 0:
             return []
 
+        target_features = features[-1:] if latest_only else features
         try:
-            scaled_features = self.scaler.transform(features)
+            scaled_features = self.scaler.transform(target_features)
         except:
-            scaled_features = self.scaler.fit_transform(features)
+            self.scaler.fit(features)
+            scaled_features = self.scaler.transform(target_features)
 
         try:
             import shap
 
-            explainer = shap.TreeExplainer(self.model)
-            shap_values = explainer.shap_values(scaled_features)
+            if self._explainer is None:
+                self._explainer = shap.TreeExplainer(self.model)
+            shap_values = self._explainer.shap_values(scaled_features)
 
             if isinstance(shap_values, list):
                 shap_values = shap_values[0]
@@ -117,7 +129,7 @@ class AnomalyDetector:
                         "feature": FEATURE_NAMES[feature_index],
                         "impact": float(abs(impact)),
                         "direction": "increase" if impact >= 0 else "decrease",
-                        "value": float(features[row_index][feature_index]),
+                        "value": float(target_features[row_index][feature_index]),
                     })
 
                 contributions.sort(key=lambda item: item["impact"], reverse=True)
@@ -129,7 +141,7 @@ class AnomalyDetector:
             stds = np.std(features, axis=0) + 1e-6
             explanations = []
 
-            for row in features:
+            for row in target_features:
                 z_scores = np.abs((row - means) / stds)
                 ranked = np.argsort(z_scores)[::-1][:3]
                 contributions = []
@@ -146,12 +158,14 @@ class AnomalyDetector:
 
             return explanations
     
+    @model_operation
     def load_model(self):
         """Load pretrained model"""
         try:
             self.model = joblib.load(self.model_path / "anomaly_detector.pkl")
             self.scaler = joblib.load(self.model_path / "anomaly_scaler.pkl")
             self.is_trained = True
+            self._explainer = None
             return True
         except:
             return False

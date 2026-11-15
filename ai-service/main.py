@@ -237,8 +237,8 @@ async def detect_anomalies(request: AnomalyRequest, _: None = Depends(require_in
             }
 
         features = metric_rows(request.metrics)
-        result = anomaly_detector.detect(features, sensitivity=request.sensitivity)
-        explanations = anomaly_detector.explain(features)
+        result = await asyncio.to_thread(anomaly_detector.detect, features, sensitivity=request.sensitivity)
+        explanations = await asyncio.to_thread(anomaly_detector.explain, features, latest_only=True)
         latest_explanation = explanations[-1] if explanations else []
 
         anomalies = []
@@ -282,7 +282,7 @@ async def predict_friction(request: PredictionRequest, _: None = Depends(require
             }
 
         features = metric_rows(request.historicalMetrics)
-        result = friction_predictor.predict(features, horizon=request.horizon)
+        result = await asyncio.to_thread(friction_predictor.predict, features, horizon=request.horizon)
 
         return {
             "workflowId": request.workflowId,
@@ -326,7 +326,7 @@ async def generate_explanation(request: ExplanationRequest, _: None = Depends(re
 async def train_anomaly_detector(request: TrainingRequest, _: None = Depends(require_internal_key)):
     try:
         features = metric_rows(request.trainingData)
-        anomaly_detector.train(features)
+        await asyncio.to_thread(anomaly_detector.train, features)
         return {
             "workflowId": request.workflowId,
             "stepId": request.stepId,
@@ -341,7 +341,7 @@ async def train_anomaly_detector(request: TrainingRequest, _: None = Depends(req
 async def train_friction_predictor(request: TrainingRequest, _: None = Depends(require_internal_key)):
     try:
         features = metric_rows(request.trainingData)
-        friction_predictor.train(features)
+        await asyncio.to_thread(friction_predictor.train, features)
         return {
             "workflowId": request.workflowId,
             "stepId": request.stepId,

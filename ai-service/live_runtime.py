@@ -537,12 +537,12 @@ class LiveRuntime:
             return {"status": "skipped", "samples": int(len(rows))}
 
         try:
-            self.anomaly_detector.train(rows)
+            await asyncio.to_thread(self.anomaly_detector.train, rows)
         except Exception as error:
             self._log("warning", f"Anomaly detector retrain skipped: {error}")
 
         try:
-            self.friction_predictor.train(rows)
+            await asyncio.to_thread(self.friction_predictor.train, rows)
         except Exception as error:
             self._log("warning", f"Friction predictor retrain skipped: {error}")
 
@@ -610,18 +610,22 @@ class LiveRuntime:
                         ]
                     )
 
-                    anomaly = self.anomaly_detector.detect(
-                        features,
+                    anomaly = await asyncio.to_thread(
+                        self.anomaly_detector.detect, features,
                         sensitivity=float(self.config["anomalySensitivity"]),
                     )
-                    contributions = self.anomaly_detector.explain(features)
+                    contributions = await asyncio.to_thread(
+                        self.anomaly_detector.explain, features, latest_only=True
+                    )
                     latest_contributions = contributions[-1] if contributions else []
                     anomaly["workflowId"] = workflow_id
                     anomaly["stepId"] = step["id"]
                     anomaly["shapContributions"] = latest_contributions
                     anomaly["summary"] = contribution_summary(latest_contributions)
 
-                    prediction = self.friction_predictor.predict(features, horizon=5)
+                    prediction = await asyncio.to_thread(
+                        self.friction_predictor.predict, features, horizon=5
+                    )
                     prediction["workflowId"] = workflow_id
                     prediction["stepId"] = step["id"]
                     prediction["predictedAverage"] = prediction.get(
